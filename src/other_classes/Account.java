@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Account {
-    /* The user's name. Includes only alphanumeric characters and the special character "_" */
-    private String username;
-    /* The user's unique identification number (created by the server and is personal/hidden) */
-    private int authToken;
-    /* THe users inbox, which is a list of messages */
-    private List<Message> messageBox;
+    private String username; //the user's name. Includes only alphanumeric characters and the special character "_"
+    private int authToken; //the user's unique identification number (created by the server and is personal/hidden)
+    private List<Message> messageBox; //the users inbox, which is a list of messages
 
     public Account(String username, int authToken) {
         this.username = username;

@@ -1,14 +1,10 @@
 package other_classes;
 
 public class Message {
-    /* Signifies whether the message has been read */
-    private boolean isRead;
-    /* The sender of the message */
-    private String sender;
-    /* The receiver of the message*/
-    private String receiver;
-    /* The body of the message */
-    private String body;
+    private boolean isRead; //signifies whether the message has been read
+    private String sender; //the sender of the message
+    private String receiver; //the receiver of the message
+    private String body; //the body of the message
 
     public Message(String sender, String receiver, String body) {
         this.sender = sender;
