@@ -1,9 +1,7 @@
-package client;
-
 import java.net.*;
 import java.io.*;
 
-public class MessagingClient {
+public class Client {
     public static void main(String[] args) {
         Socket socket = null; //arguments supply message and hostname
         try {

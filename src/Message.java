@@ -1,5 +1,3 @@
-package other_classes;
-
 public class Message {
     private boolean isRead; //signifies whether the message has been read
     private String sender; //the sender of the message

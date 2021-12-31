@@ -1,8 +1,3 @@
-package server;
-
-import other_classes.Account;
-import other_classes.Message;
-
 import java.util.Random;
 
 import java.net.*;
@@ -10,7 +5,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessagingServer {
+public class Server {
 
     public static void main(String[] args) {
         List<Account> accounts = new ArrayList<>();
