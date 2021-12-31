@@ -41,7 +41,10 @@ public class MessagingClient {
                     break;
                 }
                 case 5: {
-                    ;
+                    String authToken = args[3];
+                    String messageID = args[4];
+                    request = FN_ID + "~" + authToken + "~" + messageID;
+                    break;
                 }
                 case 6: {
                     ;

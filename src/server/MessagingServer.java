@@ -70,7 +70,12 @@ class Connection extends Thread {
                 }
                 case 2: {
                     int authToken = Integer.parseInt(request[1]);
-                    out.writeUTF(getUsernames());
+                    if (getUser(authToken) == null) {
+                        out.writeUTF("Invalid Auth Token");
+                    }
+                    else {
+                        out.writeUTF(getUsernames());
+                    }
                     break;
                 }
                 case 3: {
@@ -85,21 +90,43 @@ class Connection extends Thread {
                     else if (recipient == null) {
                         out.writeUTF("User does not exist");
                     }
+                    else {
+                        out.writeUTF("Invalid Auth Token");
+                    }
                     break;
                 }
-                case 4:
+                case 4: {
                     int authToken = Integer.parseInt(request[1]);
                     Account user = getUser(authToken);
                     if (user != null) {
                         out.writeUTF(getMessages(user));
                     }
+                    else {
+                        out.writeUTF("Invalid Auth Token");
+                    }
                     break;
-                case 5:
+                }
+                case 5: {
+                    int authToken = Integer.parseInt(request[1]);
+                    int messageID = Integer.parseInt(request[2]);
+                    Account user = getUser(authToken);
+                    if (user != null) {
+                        Message message = getMessage(user, messageID - 1);
+                        if (message != null) {
+                            message.setRead(true);
+                            out.writeUTF("(" + message.getSender() + ")" + message.getBody());
+                        } else {
+                            out.writeUTF("Message ID does not exist");
+                        }
+                    } else {
+                        out.writeUTF("Invalid Auth Token");
+                    }
+                    break;
+                }
+                case 6: {
                     // need to fill in code here
                     break;
-                case 6:
-                    // need to fill in code here
-                    break;
+                }
                     // clientSocket.close();
                     // System.exit(0);
             }
@@ -181,5 +208,16 @@ class Connection extends Thread {
             }
         }
         return messages;
+    }
+
+    private Message getMessage(Account user, int messageID) {
+        Message message = null;
+        if (user != null) {
+            System.out.println(messageID + " " + user.getMessageBox().size());
+            if (messageID >= 0 && messageID < user.getMessageBox().size()) {
+                message = user.getMessageBox().get(messageID);
+            }
+        }
+        return message;
     }
 }

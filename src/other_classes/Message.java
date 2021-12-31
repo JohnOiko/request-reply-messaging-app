@@ -28,4 +28,8 @@ public class Message {
     public String getBody() {
         return body;
     }
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
 }
