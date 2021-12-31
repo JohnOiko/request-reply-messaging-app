@@ -124,11 +124,20 @@ class Connection extends Thread {
                     break;
                 }
                 case 6: {
-                    // need to fill in code here
+                    int authToken = Integer.parseInt(request[1]);
+                    int messageID = Integer.parseInt(request[2]);
+                    Account user = getUser(authToken);
+                    if (user != null) {
+                        if (deleteMessage(user, messageID - 1)) {
+                            out.writeUTF("OK");
+                        } else {
+                            out.writeUTF("Message ID does not exist");
+                        }
+                    } else {
+                        out.writeUTF("Invalid Auth Token");
+                    }
                     break;
                 }
-                    // clientSocket.close();
-                    // System.exit(0);
             }
         } catch (EOFException e) {
             System.out.println("EOF:"+e.getMessage());
@@ -201,7 +210,7 @@ class Connection extends Thread {
         if (user != null) {
             List<Message> messageBox = user.getMessageBox();
             for (int i = 0 ; i < messageBox.size() ; i++) {
-                messages = messages.concat(Integer.toString(i + 1) + ". from: " + (messageBox.get(i).getSender()) + (messageBox.get(i).isRead() ? "" : "*"));
+                messages = messages.concat(i + 1 + ". from: " + (messageBox.get(i).getSender()) + (messageBox.get(i).isRead() ? "" : "*"));
                 if (i != messageBox.size() - 1) {
                     messages = messages.concat("\n");
                 }
@@ -213,11 +222,17 @@ class Connection extends Thread {
     private Message getMessage(Account user, int messageID) {
         Message message = null;
         if (user != null) {
-            System.out.println(messageID + " " + user.getMessageBox().size());
             if (messageID >= 0 && messageID < user.getMessageBox().size()) {
                 message = user.getMessageBox().get(messageID);
             }
         }
         return message;
+    }
+
+    private boolean deleteMessage(Account user, int messageID) {
+        if (user != null) {
+            return user.deleteMessage(messageID);
+        }
+        return false;
     }
 }

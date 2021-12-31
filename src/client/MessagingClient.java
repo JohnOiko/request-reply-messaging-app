@@ -1,10 +1,7 @@
 package client;
 
-import other_classes.Account;
-
 import java.net.*;
 import java.io.*;
-import java.util.Scanner;
 
 public class MessagingClient {
     public static void main(String[] args) {
@@ -47,7 +44,9 @@ public class MessagingClient {
                     break;
                 }
                 case 6: {
-                    ;
+                    String authToken = args[3];
+                    String messageID = args[4];
+                    request = FN_ID + "~" + authToken + "~" + messageID;
                 }
             }
             out.writeUTF(request); //UTF is a string encoding see Sn. 4.4

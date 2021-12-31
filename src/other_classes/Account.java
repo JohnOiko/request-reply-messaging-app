@@ -29,4 +29,12 @@ public class Account {
     public void addMessage(String sender, String receiver, String body) {
         messageBox.add(new Message(sender, receiver, body));
     }
+
+    public boolean deleteMessage(int messageID) {
+        if (messageID >= 0 && messageID < messageBox.size()) {
+            messageBox.remove(messageID);
+            return true;
+        }
+        return false;
+    }
 }
