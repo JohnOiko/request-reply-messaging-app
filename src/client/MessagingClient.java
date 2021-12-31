@@ -4,6 +4,7 @@ import other_classes.Account;
 
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
 
 public class MessagingClient {
     public static void main(String[] args) {
@@ -17,14 +18,32 @@ public class MessagingClient {
             int FN_ID = Integer.parseInt(args[2]);
             String request = "";
             switch (FN_ID) {
-                case 1:
+                case 1: {
                     String username = args[3];
                     request = FN_ID + "~" + username;
                     break;
-                case 2:
+                }
+                case 2: {
                     String authToken = args[3];
                     request = FN_ID + "~" + authToken;
                     break;
+                }
+                case 3: {
+                    String authToken = args[3];
+                    String recipient = args[4];
+                    String message = args[5];
+                    request = FN_ID + "~" + authToken + "~" + recipient + "~" + message;
+                    break;
+                }
+                case 4: {
+                    ;
+                }
+                case 5: {
+                    ;
+                }
+                case 6: {
+                    ;
+                }
             }
             out.writeUTF(request); //UTF is a string encoding see Sn. 4.4
             String response = in.readUTF(); //read a line of data from the stream

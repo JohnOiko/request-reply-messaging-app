@@ -21,4 +21,8 @@ public class Account {
     public int getAuthToken() {
         return authToken;
     }
+
+    public void addMessage(String sender, String receiver, String body) {
+        messageBox.add(new Message(sender, receiver, body));
+    }
 }

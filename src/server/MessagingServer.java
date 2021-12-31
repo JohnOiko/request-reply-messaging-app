@@ -54,27 +54,38 @@ class Connection extends Thread {
             String[] request = in.readUTF().split("~", -1);
             int FN_ID = Integer.parseInt(request[0]);
             switch (FN_ID) {
-                case 1:
+                case 1: {
                     String username = request[1];
-                    if (isUnique(username) && isValid(username)) {
+                    if (getUser(username) == null && isValid(username)) {
                         Account newAccount = new Account(username, createToken());
                         accounts.add(newAccount);
                         out.writeUTF(Integer.toString(newAccount.getAuthToken()));
-                    }
-                    else if (!isUnique(username)) {
+                    } else if (getUser(username) != null) {
                         out.writeUTF("Sorry, the user already exists");
-                    }
-                    else if (!isValid(username)) {
+                    } else if (!isValid(username)) {
                         out.writeUTF("Invalid Username");
                     }
                     break;
-                case 2:
+                }
+                case 2: {
                     int authToken = Integer.parseInt(request[1]);
                     out.writeUTF(getUsernames());
                     break;
-                case 3:
-                    // need to fill in code here
+                }
+                case 3: {
+                    int authToken = Integer.parseInt(request[1]);
+                    Account sender = getUser(authToken);
+                    Account recipient = getUser(request[2]);
+                    String message = request[3];
+                    if (sender != null && recipient != null) {
+                        recipient.addMessage(sender.getUsername(), recipient.getUsername(), message);
+                        out.writeUTF("OK");
+                    }
+                    else if (recipient == null) {
+                        out.writeUTF("User does not exist");
+                    }
                     break;
+                }
                 case 4:
                     // need to fill in code here
                     break;
@@ -112,14 +123,24 @@ class Connection extends Thread {
         return Integer.parseInt(authToken);
     }
 
-    private boolean isUnique(String username) {
-        // check if the username already exists in the database
+    private Account getUser(String username) {
+        // search for the username in the database and if it is found return the account it belongs to, else return null
         for (int i = 0 ; i < accounts.size() ; i++) {
             if (accounts.get(i).getUsername().equals(username)) {
-                return false;
+                return accounts.get(i);
             }
         }
-        return true;
+        return null;
+    }
+
+    private Account getUser(int authToken) {
+        // search for the username in the database and if it is found return the account it belongs to, else return null
+        for (int i = 0 ; i < accounts.size() ; i++) {
+            if (accounts.get(i).getAuthToken() == authToken) {
+                return accounts.get(i);
+            }
+        }
+        return null;
     }
 
     private boolean isValid(String username) {
