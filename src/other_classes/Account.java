@@ -13,4 +13,12 @@ public class Account {
         this.authToken = authToken;
         messageBox = new ArrayList<>();
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public int getAuthToken() {
+        return authToken;
+    }
 }
