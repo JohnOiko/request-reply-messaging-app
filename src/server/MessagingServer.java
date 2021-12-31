@@ -1,6 +1,7 @@
 package server;
 
 import other_classes.Account;
+import other_classes.Message;
 
 import java.util.Random;
 
@@ -87,7 +88,11 @@ class Connection extends Thread {
                     break;
                 }
                 case 4:
-                    // need to fill in code here
+                    int authToken = Integer.parseInt(request[1]);
+                    Account user = getUser(authToken);
+                    if (user != null) {
+                        out.writeUTF(getMessages(user));
+                    }
                     break;
                 case 5:
                     // need to fill in code here
@@ -162,5 +167,19 @@ class Connection extends Thread {
             }
         }
         return usernames;
+    }
+
+    private String getMessages(Account user) {
+        String messages = "";
+        if (user != null) {
+            List<Message> messageBox = user.getMessageBox();
+            for (int i = 0 ; i < messageBox.size() ; i++) {
+                messages = messages.concat(Integer.toString(i + 1) + ". from: " + (messageBox.get(i).getSender()) + (messageBox.get(i).isRead() ? "" : "*"));
+                if (i != messageBox.size() - 1) {
+                    messages = messages.concat("\n");
+                }
+            }
+        }
+        return messages;
     }
 }
