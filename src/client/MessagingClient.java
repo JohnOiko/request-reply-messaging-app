@@ -20,10 +20,15 @@ public class MessagingClient {
                 case 1:
                     String username = args[3];
                     request = FN_ID + "~" + username;
+                    break;
+                case 2:
+                    String authToken = args[3];
+                    request = FN_ID + "~" + authToken;
+                    break;
             }
             out.writeUTF(request); //UTF is a string encoding see Sn. 4.4
-            String data = in.readUTF(); //read a line of data from the stream
-            System.out.println("Received: "+ data) ;
+            String response = in.readUTF(); //read a line of data from the stream
+            System.out.println(response) ;
         } catch (UnknownHostException e) {
             System.out.println("Socket:"+e.getMessage());
         } catch (EOFException e) {

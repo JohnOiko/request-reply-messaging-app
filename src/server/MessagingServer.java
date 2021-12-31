@@ -69,7 +69,8 @@ class Connection extends Thread {
                     }
                     break;
                 case 2:
-                    // need to fill in code here
+                    int authToken = Integer.parseInt(request[1]);
+                    out.writeUTF(getUsernames());
                     break;
                 case 3:
                     // need to fill in code here
@@ -129,5 +130,16 @@ class Connection extends Thread {
             }
         }
         return true;
+    }
+
+    private String getUsernames() {
+        String usernames = "";
+        for (int i = 0 ; i < accounts.size() ; i++) {
+            usernames = usernames.concat(Integer.toString(i + 1) + ". " + accounts.get(i).getUsername());
+            if (i != accounts.size() - 1) {
+                usernames = usernames.concat("\n");
+            }
+        }
+        return usernames;
     }
 }
