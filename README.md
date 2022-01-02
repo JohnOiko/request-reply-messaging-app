@@ -1,6 +1,6 @@
 ## Class explanation:
 
-### Message (in Message.java):
+### Message (in [Message.java](src/Message.java)):
 
 This class represents a message. It has the member variables the instructions
 provide as well as a constructor, getters, and a setter.
