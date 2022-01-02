@@ -33,8 +33,9 @@ public class Account {
         messageBox.add(new Message(sender, receiver, body));
     }
 
-    // Method that deletes the message with index messageID from the account's message box.
-    // Returns true if deletion was successful, else false.
+    /* Method that deletes the message with index messageID from the account's message box.
+     Returns true if deletion was successful, else false.
+     */
     public boolean deleteMessage(int messageID) {
         if (messageID >= 0 && messageID < messageBox.size()) {
             messageBox.remove(messageID);

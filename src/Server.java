@@ -23,7 +23,7 @@ public class Server {
 class Connection extends Thread {
     private DataInputStream in; // The server's input stream (used to transfer the client's requests).
     private DataOutputStream out; // The server's output stream (used to transfer the server's replies).
-    private Socket clientSocket; // The server's socket.
+    private Socket clientSocket; // The client's socket.
     private ArrayList<Account> accounts; // The Arraylist which saves all the accounts (a pointer needs to be saved in this class).
 
     // Class constructor.
@@ -145,6 +145,9 @@ class Connection extends Thread {
 
     // Method that returns an authentication token with digit_num digits that doesn't begin with 0.
     private int createToken(int digit_num) {
+        if (digit_num < 1) {
+            digit_num = 4; // Default value for the authToken's length in case the provided digit_num is 0 or less.
+        }
         Random generator = new Random();
         // Create the first random digit (between 1 and 9)
         String authToken = Integer.toString(generator.nextInt(9) + 1);
