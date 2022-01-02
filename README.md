@@ -1,5 +1,8 @@
 ## Class explanation:
 
+Apart from the following explanations, there are comments in the source code that also
+explain what specific parts of the code do.
+
 ### Message (in [Message.java](src/Message.java)):
 
 This class represents a message. It has the member variables the instructions
