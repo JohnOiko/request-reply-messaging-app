@@ -13,25 +13,15 @@ public class Account {
         messageBox = new ArrayList<>(); // The message box of the account is initialized to be empty.
     }
 
-    // Getter for the account's username.
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; } // Getter for the account's username.
 
-    // Getter for the account's authToken.
-    public int getAuthToken() {
-        return authToken;
-    }
+    public int getAuthToken() { return authToken; } // Getter for the account's authToken.
 
     // Getter for the account's message box (return a shallow copy of the message box).
-    public ArrayList<Message> getMessageBox() {
-        return new ArrayList<>(messageBox);
-    }
+    public ArrayList<Message> getMessageBox() { return new ArrayList<>(messageBox); }
 
     // Method that adds a message to the account's message box.
-    public void addMessage(String sender, String receiver, String body) {
-        messageBox.add(new Message(sender, receiver, body));
-    }
+    public void addMessage(String sender, String receiver, String body) { messageBox.add(new Message(sender, receiver, body)); }
 
     /* Method that deletes the message with index messageID from the account's message box.
      Returns true if deletion was successful, else false.

@@ -36,7 +36,6 @@ class Connection extends Thread {
             this.start(); // Here is where the thread starts running.
         } catch(IOException e) {
             System.out.println("Connection: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -45,6 +44,7 @@ class Connection extends Thread {
         try {
             String[] request = in.readUTF().split("~", -1); // Split the client's request into an array using "~" as delimiter.
             int FN_ID = Integer.parseInt(request[0]); // The FN_ID is always the first part of the request.
+
             switch (FN_ID) {
                 case 1: {
                     String username = request[1]; // The second part of the request when FN_ID=1 is the new account's username.

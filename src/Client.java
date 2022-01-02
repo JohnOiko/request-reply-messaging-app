@@ -12,9 +12,9 @@ public class Client {
             DataOutputStream out = new DataOutputStream(socket.getOutputStream()); // Connect an output stream to the socket's output stream.
 
             int FN_ID = Integer.parseInt(args[2]); // The FN_ID is given as the third argument.
-
             ArrayList<String> request = new ArrayList<>();
             request.add(Integer.toString(FN_ID)); // The FN_ID is needed in every request.
+
             switch (FN_ID) {
                 case 1:
                 case 2:
@@ -35,9 +35,11 @@ public class Client {
                     break;
                 }
             }
+
             out.writeUTF(String.join("~", request)); // Send the request as a string using "~" as delimiter to the server.
             String reply = in.readUTF(); // Read the server's reply.
             System.out.println(reply); // Print the server's reply.
+
         } catch (UnknownHostException e) {
             System.out.println("Socket: " + e.getMessage());
         } catch (EOFException e) {
@@ -45,8 +47,8 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Readline: " + e.getMessage());
         } finally {
-            if(socket != null) try { // If connection was established, close the socket once the server's reply has been printed.
-                socket.close();
+            if (socket != null) try {
+                socket.close(); // If connection was established, close the socket once the server's reply has been printed.
             } catch (IOException e) {
                 System.out.println("Close: " + e.getMessage()); // Close failed.
             }

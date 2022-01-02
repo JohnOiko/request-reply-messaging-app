@@ -13,28 +13,13 @@ public class Message {
         this.body = body;
     }
 
-    // Getter for isRead.
-    public boolean isRead() {
-        return isRead;
-    }
+    public boolean isRead() { return isRead; } // Getter for isRead.
 
-    // Getter for sender of the message.
-    public String getSender() {
-        return sender;
-    }
+    public String getSender() { return sender; } // Getter for sender of the message.
 
-    // Getter for receiver of the message.
-    public String getReceiver() {
-        return receiver;
-    }
+    public String getReceiver() { return receiver; } // Getter for receiver of the message.
 
-    // Getter for the body of the message.
-    public String getBody() {
-        return body;
-    }
+    public String getBody() { return body; } // Getter for the body of the message.
 
-    // Setter for isRead
-    public void setRead(boolean read) {
-        isRead = read;
-    }
+    public void setRead(boolean read) { isRead = read; } // Setter for isRead
 }
