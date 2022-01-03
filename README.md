@@ -6,7 +6,7 @@ explain what specific parts of the code do.
 ### Message (in [Message.java](src/Message.java)):
 
 This class represents a message. It has the member variables the instructions
-provide as well as a constructor, getters, and a setter.
+provide as well as an int which is the message's ID, a constructor, getters, and a setter.
 
 ### Account (in file [Account.java](src/Account.java)):
 
@@ -33,9 +33,11 @@ created which handles replying to the client.
 
 This class handles replying to the clients and extends the class Thread to be
 able to reply to multiple clients at the same time using threads. Its member
-variables are the server's DataInputStream in, the server's DataOutputStream
-out, the client's socket clientSocket and a pointer to the server's Arraylist
-of saved accounts.
+variables are a pointer to the server's Arraylist of saved accounts, the client's
+socket clientSocket, a one element array which holds the message ID that will
+be given to the next message that is received (an array is used to simulate
+passing by reference), the server's DataInputStream in and the server's
+DataOutputStream out.
 
 It also has a constructor, in which the thread starts running after the needed
 initializations are complete, a public method run which overrides the Thread's

@@ -9,7 +9,7 @@ public class Server {
         ArrayList<Account> accounts = new ArrayList<>(); // The Arraylist which saves all the accounts.
         try {
             ServerSocket listenSocket = new ServerSocket(Integer.parseInt(args[0])); // Create a socket using the first argument as the port.
-            int[] nextMessageID = {0};
+            int[] nextMessageID = {0}; // The message ID that will be given to the next message that is received (it is a one element array to simulate passing "by reference").
             while (true) {
                 Socket clientSocket = listenSocket.accept(); // Listen for and accept new connections by saving them in a new socket.
                 Connection connection = new Connection(clientSocket, accounts, nextMessageID); // Create a new connection which handles the interaction with the client.
@@ -24,7 +24,7 @@ public class Server {
 class Connection extends Thread {
     private ArrayList<Account> accounts; // The Arraylist which saves all the accounts (a pointer needs to be saved in this class).
     private Socket clientSocket; // The client's socket.
-    private int[] nextMessageID; // The next message ID that will be given to the next message that comes.
+    private int[] nextMessageID; // The message ID that will be given to the next message that is received.
     private DataInputStream in; // The server's input stream (used to transfer the client's requests).
     private DataOutputStream out; // The server's output stream (used to transfer the server's replies).
 
