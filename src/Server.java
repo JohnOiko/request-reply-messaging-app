@@ -9,9 +9,10 @@ public class Server {
         ArrayList<Account> accounts = new ArrayList<>(); // The Arraylist which saves all the accounts.
         try {
             ServerSocket listenSocket = new ServerSocket(Integer.parseInt(args[0])); // Create a socket using the first argument as the port.
+            int[] nextMessageID = {0};
             while (true) {
                 Socket clientSocket = listenSocket.accept(); // Listen for and accept new connections by saving them in a new socket.
-                Connection connection = new Connection(clientSocket, accounts); // Create a new connection which handles the interaction with the client.
+                Connection connection = new Connection(clientSocket, accounts, nextMessageID); // Create a new connection which handles the interaction with the client.
             }
         } catch (IOException e) {
             System.out.println("Listen socket: " + e.getMessage());
@@ -21,14 +22,16 @@ public class Server {
 
 // Class that is used by the server to reply to the client's requests.
 class Connection extends Thread {
+    private ArrayList<Account> accounts; // The Arraylist which saves all the accounts (a pointer needs to be saved in this class).
+    private Socket clientSocket; // The client's socket.
+    private int[] nextMessageID; // The next message ID that will be given to the next message that comes.
     private DataInputStream in; // The server's input stream (used to transfer the client's requests).
     private DataOutputStream out; // The server's output stream (used to transfer the server's replies).
-    private Socket clientSocket; // The client's socket.
-    private ArrayList<Account> accounts; // The Arraylist which saves all the accounts (a pointer needs to be saved in this class).
 
     // Class constructor.
-    public Connection (Socket aClientSocket, ArrayList<Account> accounts) {
+    public Connection (Socket aClientSocket, ArrayList<Account> accounts, int[] nextMessageID) {
         this.accounts = accounts;
+        this.nextMessageID = nextMessageID;
         try {
             clientSocket = aClientSocket;
             in = new DataInputStream(clientSocket.getInputStream());
@@ -44,6 +47,7 @@ class Connection extends Thread {
         try {
             String[] request = in.readUTF().split("~", -1); // Split the client's request into an array using "~" as delimiter.
             int FN_ID = Integer.parseInt(request[0]); // The FN_ID is always the first part of the request.
+            System.out.println("Request from client " + clientSocket.getInetAddress() + " at port " + clientSocket.getPort() + " with function ID " + FN_ID);
 
             switch (FN_ID) {
                 case 1: {
@@ -74,8 +78,9 @@ class Connection extends Thread {
                     Account sender = getUser(authToken); // Get the account the sender's authToken belongs to.
                     Account recipient = getUser(request[2]); // Get the account the recipient's username belongs to.
                     String message = request[3]; // The fourth part of the request when FN_ID=3 is the message.
+                    nextMessageID[0]++; // Increment the next message ID.
                     if (sender != null && recipient != null) { // If both the sender's and the recipient's accounts exist add the message to the recipient's message box.
-                        recipient.addMessage(sender.getUsername(), recipient.getUsername(), message);
+                        recipient.addMessage(sender.getUsername(), recipient.getUsername(), message, nextMessageID[0]);
                         out.writeUTF("OK");
                     }
                     else if (recipient == null) { // Else if the recipient's username is not found reply with an error message.
@@ -102,7 +107,7 @@ class Connection extends Thread {
                     int messageID = Integer.parseInt(request[2]); // The third part of the request when FN_ID=5 is the id of the message.
                     Account user = getUser(authToken); // Get the account the authToken belongs to.
                     if (user != null) { // If there is a user with the given authToken look for the message with the given id.
-                        Message message = getMessage(user, messageID - 1);
+                        Message message = getMessage(user, messageID);
                         if (message != null) { // If the message was found set it to read and reply with the message and its sender.
                             message.setRead(true);
                             out.writeUTF("(" + message.getSender() + ")" + message.getBody());
@@ -119,7 +124,7 @@ class Connection extends Thread {
                     int messageID = Integer.parseInt(request[2]); // The third part of the request when FN_ID=5 is the id of the message.
                     Account user = getUser(authToken); // Get the account the authToken belongs to.
                     if (user != null) { // If there is a user with the given authToken delete the message with the given id.
-                        if (deleteMessage(user, messageID - 1)) { // If the message exists delete it and reply with a confirmation message.
+                        if (deleteMessage(user, messageID)) { // If the message exists delete it and reply with a confirmation message.
                             out.writeUTF("OK");
                         } else { // Else if it doesn't exist reply with an error message.
                             out.writeUTF("Message ID does not exist");
@@ -207,7 +212,7 @@ class Connection extends Thread {
         if (user != null) {
             ArrayList<Message> messageBox = user.getMessageBox();
             for (int i = 0 ; i < messageBox.size() ; i++) {
-                messages = messages.concat(i + 1 + ". from: " + (messageBox.get(i).getSender()) + (messageBox.get(i).isRead() ? "" : "*"));
+                messages = messages.concat(messageBox.get(i).getId() + ". from: " + (messageBox.get(i).getSender()) + (messageBox.get(i).isRead() ? "" : "*"));
                 if (i != messageBox.size() - 1) { // If this is not the last message append a newline character to the string.
                     messages = messages.concat("\n");
                 }
@@ -218,13 +223,14 @@ class Connection extends Thread {
 
     // Method that searches the given user's message box for a message with the given id and returns that message if it is found, else returns null.
     private Message getMessage(Account user, int messageID) {
-        Message message = null;
         if (user != null) {
-            if (messageID >= 0 && messageID < user.getMessageBox().size()) {
-                message = user.getMessageBox().get(messageID);
+            for (int i = 0 ; i < user.getMessageBox().size() ; i++) {
+                if (user.getMessageBox().get(i).getId() == messageID) {
+                    return user.getMessageBox().get(i);
+                }
             }
         }
-        return message;
+        return null;
     }
 
     // Method that searches the given user's message box for a message with the given id and deletes that message if it is found and returns true, else returns null.

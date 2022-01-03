@@ -15,30 +15,35 @@ public class Client {
             ArrayList<String> request = new ArrayList<>();
             request.add(Integer.toString(FN_ID)); // The FN_ID is needed in every request.
 
-            switch (FN_ID) {
-                case 1:
-                case 2:
-                case 4: {
-                    request.add(args[3]); // The fourth argument is the username for FN_ID=1 and the authToken for FN_ID=2 and FN_ID=4.
-                    break;
+            if (FN_ID >= 1 && FN_ID <= 6) {
+                switch (FN_ID) {
+                    case 1:
+                    case 2:
+                    case 4: {
+                        request.add(args[3]); // The fourth argument is the username for FN_ID=1 and the authToken for FN_ID=2 and FN_ID=4.
+                        break;
+                    }
+                    case 3: {
+                        request.add(args[3]); // The fourth argument is the authToken for FN_ID=3.
+                        request.add(args[4]); // The fifth argument is the recipient for FN_ID=3.
+                        request.add(args[5]); // The sixth argument is the message for FN_ID=3.
+                        break;
+                    }
+                    case 5:
+                    case 6: {
+                        request.add(args[3]); // The fourth argument is the authToken for FN_ID=5 and FN_ID=6.
+                        request.add(args[4]); // The fifth argument is the messageID for FN_ID=5 and FN_ID=6.
+                        break;
+                    }
                 }
-                case 3: {
-                    request.add(args[3]); // The fourth argument is the authToken for FN_ID=3.
-                    request.add(args[4]); // The fifth argument is the recipient for FN_ID=3.
-                    request.add(args[5]); // The sixth argument is the message for FN_ID=3.
-                    break;
-                }
-                case 5:
-                case 6: {
-                    request.add(args[3]); // The fourth argument is the authToken for FN_ID=5 and FN_ID=6.
-                    request.add(args[4]); // The fifth argument is the messageID for FN_ID=5 and FN_ID=6.
-                    break;
-                }
-            }
 
-            out.writeUTF(String.join("~", request)); // Send the request as a string using "~" as delimiter to the server.
-            String reply = in.readUTF(); // Read the server's reply.
-            System.out.println(reply); // Print the server's reply.
+                out.writeUTF(String.join("~", request)); // Send the request as a string using "~" as delimiter to the server.
+                String reply = in.readUTF(); // Read the server's reply.
+                System.out.println(reply); // Print the server's reply.
+            }
+            else {
+                System.out.println("Please give a function ID between 1 and 6");
+            }
 
         } catch (UnknownHostException e) {
             System.out.println("Socket: " + e.getMessage());

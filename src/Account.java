@@ -21,15 +21,17 @@ public class Account {
     public ArrayList<Message> getMessageBox() { return new ArrayList<>(messageBox); }
 
     // Method that adds a message to the account's message box.
-    public void addMessage(String sender, String receiver, String body) { messageBox.add(new Message(sender, receiver, body)); }
+    public void addMessage(String sender, String receiver, String body, int id) { messageBox.add(new Message(sender, receiver, body, id)); }
 
-    /* Method that deletes the message with index messageID from the account's message box.
+    /* Method that deletes the message with the given messageID from the account's message box.
      Returns true if deletion was successful, else false.
      */
     public boolean deleteMessage(int messageID) {
-        if (messageID >= 0 && messageID < messageBox.size()) {
-            messageBox.remove(messageID);
-            return true;
+        for (int i = 0 ; i < messageBox.size() ; i++) {
+            if (messageBox.get(i).getId() == messageID) {
+                messageBox.remove(i);
+                return true;
+            }
         }
         return false;
     }
