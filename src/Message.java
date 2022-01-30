@@ -17,13 +17,13 @@ public class Message {
 
     public boolean isRead() { return isRead; } // Getter for isRead.
 
-    public String getSender() { return sender; } // Getter for sender of the message.
+    public String getSender() { return sender; } // Getter for the sender of the message.
 
-    public String getReceiver() { return receiver; } // Getter for receiver of the message.
+    public String getReceiver() { return receiver; } // Getter for the receiver of the message.
 
     public String getBody() { return body; } // Getter for the body of the message.
 
     public int getId() { return id; } // Getter for the message's id.
 
-    public void setRead(boolean read) { isRead = read; } // Setter for isRead
+    public void setRead(boolean read) { isRead = read; } // Setter for isRead.
 }

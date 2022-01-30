@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Account {
     private String username; // The user's name. Includes only alphanumeric characters and the special character "_".
     private int authToken; // The user's unique identification number (created by the server and is personal/hidden).
-    private ArrayList<Message> messageBox; // The users inbox, which is a list of messages.
+    private ArrayList<Message> messageBox; // The users message box, which is a list of messages.
 
     // Class constructor.
     public Account(String username, int authToken) {
@@ -24,8 +24,7 @@ public class Account {
     public void addMessage(String sender, String receiver, String body, int id) { messageBox.add(new Message(sender, receiver, body, id)); }
 
     /* Method that deletes the message with the given messageID from the account's message box.
-     Returns true if deletion was successful, else false.
-     */
+    Returns true if deletion was successful, else false. */
     public boolean deleteMessage(int messageID) {
         for (int i = 0 ; i < messageBox.size() ; i++) {
             if (messageBox.get(i).getId() == messageID) {
