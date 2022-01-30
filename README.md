@@ -66,4 +66,5 @@ the corresponding method's comments.
 
 ## Assumptions about the system:
 
-The source code is using the jdk OracleJDK 17.0.1.
+The source code was written using the IDE IntelliJ IDEA Ultimate 2021.2.3 in a PC
+using Windows 10 and the JDK used is OracleJDK 17.0.1.
