@@ -17,10 +17,11 @@ message box and a method to delete a message from the account's message box.
 ### Client (in file [Client.java](src/Client.java)):
 
 This class is the client. It has one public static main method which is executed
-to get the client up and running. In a try statement, first the connection to the
-server is established and then a request with the client's appropriate arguments
-is sent to the server. Then the server's reply is printed. If at any point an
-exception is produced, its origin as well as its message are printed.
+to get the client up and running. If the given function ID is valid (between 1 and 6),
+inside a try statement, first the connection to the server is established and then a
+request with the client's appropriate arguments is sent to the server. Then the server's
+reply is printed. If at any point an exception is produced, its origin as well as its
+message are printed.
 
 ### Server (in file [Server.java](src/Server.java)):
 
@@ -36,8 +37,10 @@ able to reply to multiple clients at the same time using threads. Its member
 variables are a pointer to the server's Arraylist of saved accounts, the client's
 socket clientSocket, a one element array which holds the message ID that will
 be given to the next message that is received (an array is used to simulate
-passing by reference), the server's DataInputStream in and the server's
-DataOutputStream out.
+passing by reference), the server's DataInputStream in, the server's
+DataOutputStream out as well as an Object named synchronizationObject which is
+used for synchronization when multiple clients make requests that alter or access
+the same data of the server.
 
 It also has a constructor, in which the thread starts running after the needed
 initializations are complete, a public method run which overrides the Thread's
@@ -54,7 +57,7 @@ always tries to close the connection with the client once it has finished replyi
 is created whose origin and message are printed.
 
 The number 4 in the line of code in the file [Server.java](src/Server.java)
-line 52 can be changed to an integer digit_num > 0 so that the authToken the server
+line 59 can be changed to an integer 1 <= digit_num <= 9 so that the authToken the server
 creates has digit_num length (I have left it at 4 since that is what the project's
 instructions use).
 

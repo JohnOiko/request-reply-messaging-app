@@ -157,8 +157,8 @@ class Connection extends Thread {
 
     // Method that returns an authentication token with digit_num digits that doesn't begin with 0.
     private int createToken(int digit_num) {
-        if (digit_num < 1) {
-            digit_num = 4; // Default value for the authToken's length in case the provided digit_num is 0 or less.
+        if (digit_num < 1 || digit_num > 9) {
+            digit_num = 4; // Default value for the authToken's length in case the provided digit_num is 0 or less or more than 9.
         }
         Random generator = new Random();
         // Create the first random digit (between 1 and 9)
